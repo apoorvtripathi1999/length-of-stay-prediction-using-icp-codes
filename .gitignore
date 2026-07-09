@@ -1,8 +1,7 @@
 *.csv
 .venv
-<<<<<<< HEAD
-.env
-=======
 .env
 /data
->>>>>>> origin/main
+.agents
+/mlruns
+*.db

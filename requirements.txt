@@ -1,0 +1,9 @@
+pandas
+numpy
+matplotlib
+scikit-learn>=1.3.0
+ipykernel
+requests
+python-dotenv
+mlflow
+apache-airflow

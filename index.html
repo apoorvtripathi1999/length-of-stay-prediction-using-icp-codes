@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hospital Length of Stay</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand-mark" aria-hidden="true">+</div>
+        <div>
+          <p class="eyebrow">Care operations</p>
+          <h1>Length of stay forecast</h1>
+        </div>
+        <span class="status"><span></span> Model ready</span>
+      </header>
+
+      <section class="intro">
+        <div>
+          <p class="eyebrow">Hospital administration</p>
+          <h2>Estimate a patient’s stay before the bed plan is final.</h2>
+          <p class="intro-copy">Add the details available at admission. Unselected fields are treated as unknown.</p>
+        </div>
+        <div class="metric-card">
+          <span>Predicted stay</span>
+          <strong id="prediction">--</strong>
+          <small>days</small>
+        </div>
+      </section>
+
+      <form id="prediction-form">
+        <section class="form-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">01 / Patient profile</p>
+              <h3>Who is being admitted?</h3>
+            </div>
+            <button class="button button-secondary" type="button" id="random-button">↻ Random values</button>
+          </div>
+          <div class="field-grid">
+            <label class="field field-wide">
+              <span>Service intensity weight</span>
+              <input name="service_intensity_weight" type="number" min="0" step="0.01" placeholder="e.g. 1.25" />
+            </label>
+            <label class="field">
+              <span>Age group</span>
+              <select name="age_group">
+                <option value="">Not selected</option>
+                <option value="0 to 17">0 to 17</option>
+                <option value="18 to 29">18 to 29</option>
+                <option value="30 to 49">30 to 49</option>
+                <option value="50 to 69">50 to 69</option>
+                <option value="70 or Older">70 or Older</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Gender</span>
+              <select name="gender"><option value="">Not selected</option><option>F</option><option>M</option></select>
+            </label>
+            <label class="field">
+              <span>Ethnicity</span>
+              <select name="ethnicity">
+                <option value="">Not selected</option>
+                <option value="Not Span/Hispanic">Not Span/Hispanic</option>
+                <option value="Spanish/Hispanic">Spanish/Hispanic</option>
+                <option value="Unknown">Unknown</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="form-panel">
+          <div class="panel-heading"><div><p class="eyebrow">02 / Admission details</p><h3>What brought the patient in?</h3></div></div>
+          <div class="field-grid">
+            <label class="field"><span>DRG pathway</span><select name="drg"><option value="">Not selected</option><option value="Medical">Medical</option><option value="Surgical">Surgical</option></select></label>
+            <label class="field"><span>Admission type</span><select name="admission"><option value="">Not selected</option><option>Elective</option><option>Emergency</option><option>Newborn</option><option>Trauma</option><option>Urgent</option></select></label>
+            <label class="field"><span>Severity of illness</span><select name="illness"><option value="">Not selected</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label>
+            <label class="field"><span>Risk of mortality</span><select name="mortality"><option value="">Not selected</option><option>Extreme</option><option>Major</option><option>Minor</option><option>Moderate</option></select></label>
+            <label class="field"><span>Emergency department</span><select name="emergency"><option value="">Not selected</option><option value="Y">Yes</option><option value="N">No</option></select></label>
+            <label class="field"><span>Procedure category</span><select name="procedure"><option value="">Not selected</option><option value="cardiovascular">Cardiovascular</option><option value="ear">Ear</option><option value="endocrine">Endocrine</option><option value="eye">Eye</option><option value="nervous">Nervous</option><option value="others">Other</option><option value="physical">Physical</option><option value="sensory">Sensory</option></select></label>
+          </div>
+        </section>
+
+        <section class="form-panel compact-panel">
+          <div class="panel-heading"><div><p class="eyebrow">03 / Clinical classification</p><h3>Optional classification signals</h3></div><span class="optional-note">All optional</span></div>
+          <div class="field-grid">
+            <label class="field"><span>Major diagnostic category</span><select name="mdc"><option value="">Not selected</option><option value="1">MDC 1</option><option value="2">MDC 2</option><option value="3">MDC 3</option><option value="4">MDC 4</option><option value="5">MDC 5</option><option value="Burn">Burn</option><option value="Drug/Alcohol Abuse">Drug / Alcohol Abuse</option><option value="Mental">Mental</option><option value="Rehab">Rehab</option><option value="Trauma">Trauma</option><option value="17">MDC 17</option></select></label>
+            <label class="field"><span>Facility code</span><select name="facility"><option value="">Not selected</option><option value="1245390855">1245390855</option><option value="1326148669">1326148669</option><option value="1346294717">1346294717</option><option value="1427063270">1427063270</option><option value="1679587679">1679587679</option></select></label>
+          </div>
+        </section>
+
+        <div class="actions">
+          <button class="button button-primary" type="submit"><span>Calculate forecast</span><span aria-hidden="true">→</span></button>
+          <button class="button button-secondary" type="button" id="clear-button">Clear</button>
+          <p id="message" role="status">Enter any available details, then calculate.</p>
+        </div>
+      </form>
+
+      <section class="performance-panel" aria-labelledby="performance-heading">
+        <div>
+          <p class="eyebrow">Model performance</p>
+          <h3 id="performance-heading">Validation results</h3>
+          <p class="performance-note">Measured on the held-out validation data used for the deployed XGBoost model.</p>
+        </div>
+        <div class="performance-grid">
+          <div class="performance-metric"><span>Mean absolute error</span><strong>2.97</strong><small>days</small></div>
+          <div class="performance-metric"><span>Mean squared error</span><strong>35.99</strong><small>days²</small></div>
+          <div class="performance-metric"><span>R² score</span><strong>0.594</strong><small>variance explained</small></div>
+        </div>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

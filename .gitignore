@@ -4,6 +4,7 @@
 /data
 .agents
 /mlruns
+/runs
 *.db
 .gemini
 .vscode

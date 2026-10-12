@@ -1,0 +1,14 @@
+.git
+.venv
+__pycache__
+*.pyc
+*.ipynb
+*.csv
+*.xlsx
+*.db
+.env
+data
+mlruns
+dags
+ml
+runs

@@ -8,3 +8,5 @@ python-dotenv
 mlflow
 apache-airflow
 xgboost
+fastapi
+uvicorn
